@@ -8,6 +8,9 @@ const app = express();
 
 const db = require('./d_db');
 
+require('dotenv').config();
+const PORT = process.env.PORT || 3000;
+
 // 1. Fetches HTTP request from client & convert it's body into JSON format
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());// saves data in HTTP request's body --> "req.body"
@@ -28,7 +31,6 @@ app.get('/',(req,res)=>{
 app.use('/person',personRoutes); 
 app.use('/menu',menuRoutes);
 
-
-app.listen(3000,()=>{
+app.listen(PORT,()=>{
     console.log("listening to port 3000")  
 }) 
