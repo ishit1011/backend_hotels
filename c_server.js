@@ -41,7 +41,7 @@ const menuRoutes = require('./routes/menuRoutes')
 
 // Local middleware : 
 const localMiddleware = passport.authenticate('local',{session: false});
-app.use('/person',localMiddleware,personRoutes); 
+app.use('/person',personRoutes); 
 app.use('/menu',menuRoutes);
 
 app.listen(PORT,()=>{

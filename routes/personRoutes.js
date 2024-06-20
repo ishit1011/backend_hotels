@@ -6,22 +6,34 @@ const router = express.Router();
 //  2. Reference to Schemas (Collections) ==> Person, Menu
 const Person = require('../models/person');
 
+const {jwtAuthMiddleware,generateToken} = require('../jwt');
 
 // --------------------------  End Points -------------------------------
 
 //  3. POST : Post data of person in the database(MongoDB)  --->   CREATE
-router.post('/',async(req,res)=>{
+router.post('/signup',async(req,res)=>{
     try{
         // 1. Get data from client
         const data = req.body;
-
+ 
         // 2. Create new person using Mongoose Schema/Model
         const newPerson = new Person(data);
 
         // 3. Save person to database
         const response = await newPerson.save();
         console.log('Data saved successfully');
-        res.status(200).json(response);
+
+
+        const payload = {
+            id: response.id,
+            username: response.username
+        }
+        const token = generateToken(payload);
+
+        res.status(200).json({
+            response: response,
+            token: token
+        });
     }
     catch(err){
         console.log(err);
